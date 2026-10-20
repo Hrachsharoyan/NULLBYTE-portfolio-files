@@ -1,0 +1,284 @@
+/* ======================================================================
+   NULLBYTE — animation.css
+   Motion layer: reveal transitions, terminal effects, and hover polish.
+   Keep reduced-motion accessibility settings enabled.
+   ====================================================================== */
+
+:root {
+  --motion-fast: 180ms;
+  --motion-medium: 420ms;
+  --motion-slow: 760ms;
+  --motion-ease: cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+@keyframes bootDots {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 1.6em;
+  }
+}
+
+@keyframes bootProgress {
+  0% {
+    width: 0;
+  }
+  72% {
+    width: 82%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scanlineMove {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 120%;
+  }
+}
+
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes neonFlicker {
+  0%,
+  18%,
+  22%,
+  62%,
+  64%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  63% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes gradientSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scroll reveal is applied by main.js. Elements remain visible without JS. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity var(--motion-slow) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+.reveal-delay-1 {
+  transition-delay: 100ms;
+}
+
+.reveal-delay-2 {
+  transition-delay: 190ms;
+}
+
+.reveal-delay-3 {
+  transition-delay: 280ms;
+}
+
+/* Optional utility classes for future sections or extra HTML. */
+.reveal.from-left {
+  transform: translateX(-22px);
+}
+
+.reveal.from-right {
+  transform: translateX(22px);
+}
+
+.reveal.scale-in {
+  transform: scale(0.97);
+}
+
+.reveal.from-left.is-visible,
+.reveal.from-right.is-visible {
+  transform: translateX(0);
+}
+
+.reveal.scale-in.is-visible {
+  transform: scale(1);
+}
+
+.typing {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  border-right: 2px solid var(--cyan);
+  white-space: nowrap;
+  animation:
+    typing 2.4s steps(32, end) both,
+    cursorBlink 800ms step-end infinite;
+}
+
+.typing::after {
+  content: "";
+}
+
+.pulse {
+  animation: neonFlicker 4.8s linear infinite;
+}
+
+.float {
+  animation: floatUp 5s ease-in-out infinite;
+}
+
+.gradient-sweep {
+  background-size: 220% 220%;
+  animation: gradientSweep 8s ease infinite;
+}
+
+.scanline-motion::after {
+  animation: scanlineMove 8s linear infinite;
+}
+
+/* Fine motion for interactive elements. */
+.project-card,
+.focus-card,
+.stat-card,
+.learning-step,
+.contact-links a {
+  transition-timing-function: var(--motion-ease);
+}
+
+.project-symbol,
+.focus-icon,
+.progress-icon {
+  transition:
+    transform var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-medium) ease;
+}
+
+.project-card:hover .project-symbol,
+.focus-card:hover .focus-icon {
+  transform: translateY(-2px) rotate(-3deg);
+  box-shadow: 0 0 22px rgba(189, 92, 255, 0.11);
+}
+
+.button span,
+.project-link span,
+.contact-email span {
+  display: inline-block;
+  transition: transform var(--motion-fast) ease;
+}
+
+.button:hover span,
+.project-link:hover span,
+.contact-email:hover span {
+  transform: translate(2px, -2px);
+}
+
+/* Accessibility: never force animation on visitors who opt out. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    will-change: auto !important;
+  }
+
+  .reveal,
+  .reveal.is-visible,
+  .reveal.from-left,
+  .reveal.from-right,
+  .reveal.scale-in {
+    opacity: 1;
+    transform: none;
+  }
+}
